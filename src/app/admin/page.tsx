@@ -14,22 +14,36 @@ const AdminLogin = () => {
     e.preventDefault()
     setIsLoading(true)
 
-    // Simple authentication - In production, use proper backend auth
-    const username = credentials.username.trim()
-    const password = credentials.password.trim()
-    
-    console.log('Login attempt:', { username, password, usernameLength: username.length, passwordLength: password.length })
-    
-    if (username === 'twinstack' && password === '59269167') {
-      localStorage.setItem('adminAuth', 'true')
-      toast.success('Login successful!')
-      router.push('/admin/dashboard')
-    } else {
-      toast.error(`Invalid credentials. Check console for details.`)
-      console.error('Login failed. Expected: twinstack / 59269167')
+    try {
+      // Simple authentication - In production, use proper backend auth
+      const username = credentials.username.trim()
+      const password = credentials.password.trim()
+      
+      console.log('Login attempt:', { 
+        username, 
+        password, 
+        usernameLength: username.length, 
+        passwordLength: password.length,
+        usernameMatch: username === 'twinstack',
+        passwordMatch: password === '59269167'
+      })
+      
+      if (username === 'twinstack' && password === '59269167') {
+        localStorage.setItem('adminAuth', 'true')
+        toast.success('Login successful!')
+        setTimeout(() => {
+          router.push('/admin/dashboard')
+        }, 500)
+      } else {
+        toast.error('Invalid credentials')
+        console.error('Login failed. Expected: twinstack / 59269167')
+      }
+    } catch (error) {
+      console.error('Login error:', error)
+      toast.error('An error occurred during login')
+    } finally {
+      setIsLoading(false)
     }
-    
-    setIsLoading(false)
   }
 
   return (

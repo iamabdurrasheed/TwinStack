@@ -41,6 +41,7 @@ interface Content {
 
 const AdminDashboard = () => {
   const router = useRouter()
+  const [mounted, setMounted] = useState(false)
   const [activeTab, setActiveTab] = useState<'projects' | 'services' | 'developers' | 'content'>('projects')
   const [isLoading, setIsLoading] = useState(false)
 
@@ -100,23 +101,34 @@ const AdminDashboard = () => {
   })
 
   useEffect(() => {
+    setMounted(true)
     // Check authentication
     const isAuth = localStorage.getItem('adminAuth')
     if (!isAuth) {
       router.push('/admin')
+      return
     }
 
     // Load data from localStorage
-    const savedProjects = localStorage.getItem('projects')
-    const savedServices = localStorage.getItem('services')
-    const savedDevelopers = localStorage.getItem('developers')
-    const savedContent = localStorage.getItem('content')
+    try {
+      const savedProjects = localStorage.getItem('projects')
+      const savedServices = localStorage.getItem('services')
+      const savedDevelopers = localStorage.getItem('developers')
+      const savedContent = localStorage.getItem('content')
 
-    if (savedProjects) setProjects(JSON.parse(savedProjects))
-    if (savedServices) setServices(JSON.parse(savedServices))
-    if (savedDevelopers) setDevelopers(JSON.parse(savedDevelopers))
-    if (savedContent) setContent(JSON.parse(savedContent))
+      if (savedProjects) setProjects(JSON.parse(savedProjects))
+      if (savedServices) setServices(JSON.parse(savedServices))
+      if (savedDevelopers) setDevelopers(JSON.parse(savedDevelopers))
+      if (savedContent) setContent(JSON.parse(savedContent))
+    } catch (error) {
+      console.error('Error loading data:', error)
+      toast.error('Error loading saved data')
+    }
   }, [router])
+
+  if (!mounted) {
+    return null
+  }
 
   const handleLogout = () => {
     localStorage.removeItem('adminAuth')
@@ -142,7 +154,8 @@ const AdminDashboard = () => {
   }
 
   const deleteProject = (id: string) => {
-    if (confirm('Are you sure you want to delete this project?')) {
+    const confirmed = window.confirm('Are you sure you want to delete this project?')
+    if (confirmed) {
       const updatedProjects = projects.filter(p => p.id !== id)
       setProjects(updatedProjects)
       localStorage.setItem('projects', JSON.stringify(updatedProjects))
@@ -168,7 +181,8 @@ const AdminDashboard = () => {
   }
 
   const deleteService = (id: string) => {
-    if (confirm('Are you sure you want to delete this service?')) {
+    const confirmed = window.confirm('Are you sure you want to delete this service?')
+    if (confirmed) {
       const updatedServices = services.filter(s => s.id !== id)
       setServices(updatedServices)
       localStorage.setItem('services', JSON.stringify(updatedServices))
@@ -194,7 +208,8 @@ const AdminDashboard = () => {
   }
 
   const deleteDeveloper = (id: string) => {
-    if (confirm('Are you sure you want to remove this developer?')) {
+    const confirmed = window.confirm('Are you sure you want to remove this developer?')
+    if (confirmed) {
       const updatedDevelopers = developers.filter(d => d.id !== id)
       setDevelopers(updatedDevelopers)
       localStorage.setItem('developers', JSON.stringify(updatedDevelopers))
