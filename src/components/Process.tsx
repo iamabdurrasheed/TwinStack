@@ -32,18 +32,18 @@ const Process = () => {
   ]
 
   return (
-    <section id="process" className="py-20 px-4 sm:px-6 lg:px-8">
+    <section id="process" className="py-32 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-20"
         >
-          <h2 className="text-4xl sm:text-5xl font-poppins font-bold gradient-text mb-4">
-            Our Process
+          <h2 className="text-5xl sm:text-6xl font-poppins font-bold mb-6">
+            Our <span className="gradient-text">Process</span>
           </h2>
-          <p className="text-gray-600 dark:text-gray-400 text-lg">
+          <p className="text-gray-600 dark:text-gray-400 text-xl max-w-3xl mx-auto">
             How we bring your ideas to life
           </p>
         </motion.div>

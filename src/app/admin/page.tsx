@@ -15,12 +15,18 @@ const AdminLogin = () => {
     setIsLoading(true)
 
     // Simple authentication - In production, use proper backend auth
-    if (credentials.username === 'admin' && credentials.password === 'twinstack2025') {
+    const username = credentials.username.trim()
+    const password = credentials.password.trim()
+    
+    console.log('Login attempt:', { username, password, usernameLength: username.length, passwordLength: password.length })
+    
+    if (username === 'twinstack' && password === '59269167') {
       localStorage.setItem('adminAuth', 'true')
       toast.success('Login successful!')
       router.push('/admin/dashboard')
     } else {
-      toast.error('Invalid credentials')
+      toast.error(`Invalid credentials. Check console for details.`)
+      console.error('Login failed. Expected: twinstack / 59269167')
     }
     
     setIsLoading(false)
@@ -79,9 +85,10 @@ const AdminLogin = () => {
             {isLoading ? 'Logging in...' : 'Login'}
           </button>
 
-          <p className="text-xs text-gray-500 dark:text-gray-400 text-center mt-4">
-            Default: admin / twinstack2025
-          </p>
+          <div className="text-xs text-gray-500 dark:text-gray-400 text-center mt-4 space-y-1">
+            <p>Username: <span className="font-mono">twinstack</span></p>
+            <p>Password: <span className="font-mono">59269167</span></p>
+          </div>
         </form>
       </motion.div>
     </div>

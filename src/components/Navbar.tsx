@@ -28,7 +28,7 @@ const Navbar = () => {
     { name: 'Work', id: 'portfolio' },
     { name: 'Process', id: 'process' },
     { name: 'Team', id: 'team' },
-    { name: 'Contact', id: 'contact' },
+    { name: 'Contact', id: 'quote' },
   ]
 
   if (!mounted) return null
