@@ -10,25 +10,22 @@ const Portfolio = () => {
 
   const projects = [
     {
-      title: 'E-Commerce Platform',
-      description: 'Full-stack e-commerce solution with payment integration, inventory management, and analytics dashboard.',
-      stack: ['MERN', 'Stripe', 'Redux'],
-      image: '/placeholder-project.jpg',
-      link: '#',
+      title: 'Frazer BMT',
+      description: 'Premium industrial and building materials trading platform with modern design and responsive interface.',
+      stack: ['Next.js', 'TypeScript', 'TailwindCSS'],
+      link: 'https://frazerbmt.vercel.app',
     },
     {
-      title: 'Real-Time Chat Application',
-      description: 'Scalable chat app with real-time messaging, file sharing, and group conversations powered by WebSockets.',
-      stack: ['MERN', 'Socket.io', 'AWS'],
-      image: '/placeholder-project.jpg',
-      link: '#',
+      title: 'Abdur Rasheed Portfolio',
+      description: 'Personal portfolio showcasing full-stack development skills and projects with elegant design.',
+      stack: ['Next.js', 'React', 'Framer Motion'],
+      link: 'https://abdurrasheed.vercel.app',
     },
     {
-      title: 'Portfolio Website Builder',
-      description: 'Drag-and-drop portfolio builder with customizable templates and one-click deployment.',
-      stack: ['Next.js', 'TypeScript', 'Vercel'],
-      image: '/placeholder-project.jpg',
-      link: '#',
+      title: 'Rohitt Codes',
+      description: 'Developer portfolio featuring innovative projects and technical expertise in modern web technologies.',
+      stack: ['Next.js', 'TypeScript', 'TailwindCSS'],
+      link: 'https://rohitt.codes',
     },
   ]
 
@@ -42,7 +39,7 @@ const Portfolio = () => {
           className="text-center mb-20"
         >
           <h2 className="text-5xl sm:text-6xl font-poppins font-bold mb-6">
-            Our <span className="gradient-text">Work</span>
+            <span className="gradient-text">Our Work</span>
           </h2>
           <p className="text-gray-600 dark:text-gray-400 text-xl max-w-3xl mx-auto">
             Projects that showcase our expertise and commitment to excellence

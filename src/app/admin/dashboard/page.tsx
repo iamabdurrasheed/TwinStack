@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import toast from 'react-hot-toast'
-import { FiCode, FiUsers, FiBriefcase, FiFileText, FiLogOut, FiPlus, FiEdit2, FiTrash2, FiGithub, FiLinkedin, FiTwitter } from 'react-icons/fi'
+import { FiCode, FiUsers, FiBriefcase, FiFileText, FiLogOut, FiPlus, FiEdit2, FiTrash2, FiGithub, FiLinkedin, FiTwitter, FiMail } from 'react-icons/fi'
 
 interface Project {
   id: string
@@ -39,10 +39,20 @@ interface Content {
   phone: string
 }
 
+interface QuoteRequest {
+  id: string
+  name: string
+  email: string
+  location: string
+  description: string
+  timestamp: string
+  status: 'pending' | 'contacted' | 'completed'
+}
+
 const AdminDashboard = () => {
   const router = useRouter()
   const [mounted, setMounted] = useState(false)
-  const [activeTab, setActiveTab] = useState<'projects' | 'services' | 'developers' | 'content'>('projects')
+  const [activeTab, setActiveTab] = useState<'quotes' | 'projects' | 'services' | 'developers' | 'content'>('quotes')
   const [isLoading, setIsLoading] = useState(false)
 
   // Projects State
@@ -91,6 +101,9 @@ const AdminDashboard = () => {
   const [editingDeveloper, setEditingDeveloper] = useState<Developer | null>(null)
   const [showDeveloperForm, setShowDeveloperForm] = useState(false)
 
+  // Quote Requests State
+  const [quoteRequests, setQuoteRequests] = useState<QuoteRequest[]>([])
+
   // Content State
   const [content, setContent] = useState<Content>({
     heroTitle: 'Two Minds. One Stack. Limitless Solutions.',
@@ -115,11 +128,13 @@ const AdminDashboard = () => {
       const savedServices = localStorage.getItem('services')
       const savedDevelopers = localStorage.getItem('developers')
       const savedContent = localStorage.getItem('content')
+      const savedQuotes = localStorage.getItem('quoteRequests')
 
       if (savedProjects) setProjects(JSON.parse(savedProjects))
       if (savedServices) setServices(JSON.parse(savedServices))
       if (savedDevelopers) setDevelopers(JSON.parse(savedDevelopers))
       if (savedContent) setContent(JSON.parse(savedContent))
+      if (savedQuotes) setQuoteRequests(JSON.parse(savedQuotes))
     } catch (error) {
       console.error('Error loading data:', error)
       toast.error('Error loading saved data')
@@ -244,6 +259,12 @@ const AdminDashboard = () => {
         {/* Tabs */}
         <div className="flex gap-4 mb-8 overflow-x-auto">
           <TabButton
+            active={activeTab === 'quotes'}
+            onClick={() => setActiveTab('quotes')}
+            icon={<FiMail />}
+            label="Quote Requests"
+          />
+          <TabButton
             active={activeTab === 'projects'}
             onClick={() => setActiveTab('projects')}
             icon={<FiBriefcase />}
@@ -268,6 +289,108 @@ const AdminDashboard = () => {
             label="Content"
           />
         </div>
+
+        {/* Quote Requests Tab */}
+        {activeTab === 'quotes' && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="space-y-6"
+          >
+            <div className="flex justify-between items-center">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                Quote Requests ({quoteRequests.length})
+              </h2>
+            </div>
+
+            {quoteRequests.length === 0 ? (
+              <div className="text-center py-12 glass-light dark:glass rounded-2xl">
+                <FiMail className="w-16 h-16 mx-auto mb-4 text-gray-400" />
+                <p className="text-gray-600 dark:text-gray-400 text-lg">
+                  No quote requests yet
+                </p>
+              </div>
+            ) : (
+              <div className="grid gap-4">
+                {[...quoteRequests].reverse().map(quote => (
+                  <div key={quote.id} className="glass-light dark:glass p-6 rounded-xl">
+                    <div className="flex justify-between items-start mb-4">
+                      <div>
+                        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-1">
+                          {quote.name}
+                        </h3>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                          {new Date(quote.timestamp).toLocaleString()}
+                        </p>
+                      </div>
+                      <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                        quote.status === 'pending' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400' :
+                        quote.status === 'contacted' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400' :
+                        'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400'
+                      }`}>
+                        {quote.status}
+                      </span>
+                    </div>
+                    
+                    <div className="space-y-2 mb-4">
+                      <p className="text-gray-700 dark:text-gray-300">
+                        <strong>Email:</strong>{' '}
+                        <a href={`mailto:${quote.email}`} className="text-primary hover:underline">
+                          {quote.email}
+                        </a>
+                      </p>
+                      <p className="text-gray-700 dark:text-gray-300">
+                        <strong>Location:</strong> {quote.location}
+                      </p>
+                      <p className="text-gray-700 dark:text-gray-300">
+                        <strong>Description:</strong>
+                      </p>
+                      <p className="text-gray-600 dark:text-gray-400 pl-4 border-l-2 border-primary/30">
+                        {quote.description}
+                      </p>
+                    </div>
+
+                    <div className="flex gap-2">
+                      <a
+                        href={`mailto:${quote.email}?subject=Re: Your Quote Request&body=Hi ${quote.name},%0D%0A%0D%0AThank you for your interest in TwinStack Solutions!`}
+                        className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-all text-sm"
+                      >
+                        Reply via Email
+                      </a>
+                      <button
+                        onClick={() => {
+                          const updated = quoteRequests.map(q => 
+                            q.id === quote.id ? { ...q, status: 'contacted' as const } : q
+                          )
+                          setQuoteRequests(updated)
+                          localStorage.setItem('quoteRequests', JSON.stringify(updated))
+                          toast.success('Marked as contacted')
+                        }}
+                        className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all text-sm"
+                      >
+                        Mark Contacted
+                      </button>
+                      <button
+                        onClick={() => {
+                          const confirmed = window.confirm('Delete this quote request?')
+                          if (confirmed) {
+                            const updated = quoteRequests.filter(q => q.id !== quote.id)
+                            setQuoteRequests(updated)
+                            localStorage.setItem('quoteRequests', JSON.stringify(updated))
+                            toast.success('Quote request deleted')
+                          }
+                        }}
+                        className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-all text-sm"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </motion.div>
+        )}
 
         {/* Projects Tab */}
         {activeTab === 'projects' && (

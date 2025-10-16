@@ -24,13 +24,51 @@ const QuoteForm = () => {
     setIsSubmitting(true)
     
     try {
-      // Simulate API call - In production, connect to your backend/database
-      await new Promise(resolve => setTimeout(resolve, 1500))
+      // Send email using Web3Forms
+      const accessKey = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY
       
-      console.log('Quote Request:', data)
-      toast.success('Quote request submitted! We\'ll get back to you within 24 hours.')
-      reset()
+      if (!accessKey) {
+        throw new Error('Email service not configured. Please add NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY to .env.local')
+      }
+
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          access_key: accessKey,
+          subject: `New Quote Request from ${data.name}`,
+          from_name: 'TwinStack Solutions Website',
+          name: data.name,
+          email: data.email,
+          location: data.location,
+          message: data.description,
+        })
+      })
+
+      const result = await response.json()
+      
+      if (result.success) {
+        // Store in localStorage for admin to view
+        const existingQuotes = JSON.parse(localStorage.getItem('quoteRequests') || '[]')
+        const newQuote = {
+          ...data,
+          id: Date.now().toString(),
+          timestamp: new Date().toISOString(),
+          status: 'pending'
+        }
+        existingQuotes.push(newQuote)
+        localStorage.setItem('quoteRequests', JSON.stringify(existingQuotes))
+        
+        toast.success('Quote request submitted! We\'ll get back to you within 24 hours.')
+        reset()
+      } else {
+        throw new Error('Failed to send email')
+      }
     } catch (error) {
+      console.error('Submission error:', error)
       toast.error('Something went wrong. Please try again.')
     } finally {
       setIsSubmitting(false)
