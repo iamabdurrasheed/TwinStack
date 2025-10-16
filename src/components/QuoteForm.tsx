@@ -51,7 +51,7 @@ const QuoteForm = () => {
             Get a <span className="gradient-text">Quote</span>
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
-            Let's build your next big idea. Fill out the form and we'll get back to you within 24 hours.
+            Let&apos;s build your next big idea. Fill out the form and we&apos;ll get back to you within 24 hours.
           </p>
         </motion.div>
 

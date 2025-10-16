@@ -24,7 +24,7 @@ const Contact = () => {
               <div className="text-center">
                 <h3 className="text-2xl font-poppins font-bold gradient-text mb-4">About TwinStack</h3>
                 <p className="text-gray-600 dark:text-gray-400 leading-relaxed text-lg">
-                  We're two <span className="text-primary font-semibold">Computer Science Engineering classmates</span> who turned our shared passion for technology into a vision — <span className="gradient-text font-semibold">TwinStack Solutions</span>. From college projects to real-world production apps, we've grown into a duo that values clean code, creative design, and client satisfaction. Our goal: to build scalable, beautiful web experiences that make an impact.
+                  We&apos;re two <span className="text-primary font-semibold">Computer Science Engineering classmates</span> who turned our shared passion for technology into a vision — <span className="gradient-text font-semibold">TwinStack Solutions</span>. From college projects to real-world production apps, we&apos;ve grown into a duo that values clean code, creative design, and client satisfaction. Our goal: to build scalable, beautiful web experiences that make an impact.
                 </p>
               </div>
             </div>

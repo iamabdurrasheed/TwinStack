@@ -22,7 +22,7 @@ const About = () => {
           </h2>
           <div className="glass-light dark:glass p-12 rounded-3xl max-w-5xl mx-auto">
             <p className="text-xl sm:text-2xl text-gray-700 dark:text-gray-300 leading-relaxed">
-              We're two <span className="text-primary font-semibold">Computer Science Engineering classmates</span> who turned our shared passion for technology into a vision — <span className="gradient-text font-semibold">TwinStack Solutions</span>. From college projects to real-world production apps, we've grown into a duo that values clean code, creative design, and client satisfaction. Our goal: to build scalable, beautiful web experiences that make an impact.
+              We&apos;re two <span className="text-primary font-semibold">Computer Science Engineering classmates</span> who turned our shared passion for technology into a vision — <span className="gradient-text font-semibold">TwinStack Solutions</span>. From college projects to real-world production apps, we&apos;ve grown into a duo that values clean code, creative design, and client satisfaction. Our goal: to build scalable, beautiful web experiences that make an impact.
             </p>
           </div>
         </motion.div>

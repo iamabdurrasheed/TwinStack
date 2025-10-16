@@ -75,7 +75,7 @@ const Testimonials = () => {
             </div>
 
             <p className="text-xl md:text-2xl text-gray-700 dark:text-gray-300 mb-10 italic leading-relaxed">
-              "{testimonials[currentIndex].text}"
+              &ldquo;{testimonials[currentIndex].text}&rdquo;
             </p>
             <div className="gradient-text font-poppins font-bold text-2xl">
               {testimonials[currentIndex].name}
